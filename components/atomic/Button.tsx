@@ -1,28 +1,42 @@
 import styled from "styled-components";
 
-const StyledButton = styled.button`
-  margin: 0;
-  padding: 0.5rem 1rem;
+type Props = React.HTMLAttributes<HTMLButtonElement> & ButtonProps;
 
-  font-family: "Noto Sans KR", sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  text-align: center;
-  text-decoration: none;
+interface ButtonProps {
+  type?: "button" | "submit" | "reset" | undefined;
+  content: string;
+  width: string;
+  height: string;
+}
 
-  display: inline-block;
-  width: 200px;
-  height: 30px;
-  background-color: red;
-
-  border: none;
-  border-radius: 4px;
-
-  cursor: pointer;
-`;
-
-const Button = ({ children }) => {
-  return <StyledButton>{children}</StyledButton>;
+export const Button = ({
+  type,
+  content,
+  width,
+  height,
+  ...props
+}: Props) => {
+  return (
+    <Main
+      {...props}
+      type={type || "button"}
+      style={{ width: `${width}`, height: `${height}` }}
+    >
+      {content}
+    </Main>
+  );
 };
 
-export default Button;
+const Main = styled.button`
+  border: none;
+  border-radius: 5px;
+  background: none;
+  background-color: ${props => props.theme.mainButton};
+  color: ${props => props.theme.mainFontColor};
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  &:hover {
+    background-color: ${props => props.theme.mainButtonHover};
+  }
+`;
